@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todos-dep
+spec:
+  replicas: 1
+  selector:
+      matchLabels:
+        app: todos
+  template:
+      metadata:
+        labels:
+            app: todos
+      spec:
+        containers:
+        - name: todos
+          image: PROJECT/IMAGE_TODO
+          readinessProbe:
+            initialDelaySeconds: 10 
+            periodSeconds: 5 
+            httpGet:
+                path: /healthz
+                port: 3004
+          livenessProbe:
+            initialDelaySeconds: 20 
+            periodSeconds: 5
+            httpGet:
+               path: /healthz
+               port: 3004
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          env:
+            - name: NATS_URL
+              value: nats://my-nats:4222
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_USER
+            - name: POSTGRES_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_HOST
+            - name: POSTGRES_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PORT
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_DB

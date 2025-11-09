@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: projectserver-dep
+spec:
+  replicas: 1
+  selector:
+      matchLabels:
+        app: projectserver
+  template:
+      metadata:
+        labels:
+            app: projectserver
+      spec:
+        volumes: 
+        - name: shared-image
+          persistentVolumeClaim:
+            claimName: shared-image-pv-claim
+        containers:
+        - name: projectserver
+          image: PROJECT/IMAGE_SERVER
+          livenessProbe:
+            initialDelaySeconds: 20 # Initial delay until the liveness is tested
+            periodSeconds: 5 # How often to test
+            httpGet:
+               path: /healthz
+               port: 3000
+          readinessProbe:
+            initialDelaySeconds: 10 
+            periodSeconds: 5 
+            httpGet:
+               path: /healthz
+               port: 3000
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_USER
+            - name: POSTGRES_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_HOST
+            - name: POSTGRES_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PORT
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: POSTGRES_DB
+          envFrom:
+            - configMapRef:
+                name: projectserver-config
+          volumeMounts: 
+          - name: shared-image
+            mountPath: '/usr/app/public/image'
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"

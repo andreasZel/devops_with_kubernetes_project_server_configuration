@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: project-server-staging
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/andreasZel/devops_with_kubernetes_project_server
+    targetRevision: main
+    path: manifest/overlays/staging
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: staging
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

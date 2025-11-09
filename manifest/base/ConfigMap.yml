@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: projectserver-config
+data:
+  STATIC_DIR_REL: "public"
+  PORT: "3000"
+  IMAGE_SOURCE_URL: "https://picsum.photos/720"
+  TEN_MINUTES: "600000"
+  IMAGE_DIR_REL: "public/image"
+  OUTPUT_IMAGE_FILENAME: "cachedImage.png"
+  CACHED_TIME_FILENAME: "time.txt"

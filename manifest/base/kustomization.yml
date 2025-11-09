@@ -1,0 +1,36 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- Deployment.yml
+- DeploymentBroadcaster.yml
+- DeploymentTodos.yml
+- IngressService.yml
+- NodePortService.yml
+- NodePortTodoService.yml
+- ConfigMap.yml
+- ConfigMapTodo.yml
+- CronJob.yml
+- porsgresServices/PostgresSecret.yml
+- porsgresServices/HeadlessClusterIP.yml
+- porsgresServices/StatefullSetPorsgres.yml
+- persistentVolumes/persistentvolumeclaim.yaml
+- gcp-backup.secret.enc.yaml
+- broadcasterSecret.enc.yml
+
+images:
+- name: PROJECT/IMAGE_BACKUP
+  newName: europe-west1-docker.pkg.dev/our-reason-470418-t4/my-repository/zelhs/backup-service
+  newTag: main-a90ad84eb4c71c65e166d81f89cc2f345cac230b
+- name: PROJECT/IMAGE_BROADCASTER
+  newName: europe-west1-docker.pkg.dev/our-reason-470418-t4/my-repository/zelhs/broadcaster
+  newTag: main-a90ad84eb4c71c65e166d81f89cc2f345cac230b
+- name: PROJECT/IMAGE_RANDOM
+  newName: europe-west1-docker.pkg.dev/our-reason-470418-t4/my-repository/zelhs/random-article
+  newTag: main-a90ad84eb4c71c65e166d81f89cc2f345cac230b
+- name: PROJECT/IMAGE_SERVER
+  newName: europe-west1-docker.pkg.dev/our-reason-470418-t4/my-repository/zelhs/project_server
+  newTag: main-a90ad84eb4c71c65e166d81f89cc2f345cac230b
+- name: PROJECT/IMAGE_TODO
+  newName: europe-west1-docker.pkg.dev/our-reason-470418-t4/my-repository/zelhs/todoapp
+  newTag: main-a90ad84eb4c71c65e166d81f89cc2f345cac230b

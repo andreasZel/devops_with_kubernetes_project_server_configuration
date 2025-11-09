@@ -1,0 +1,60 @@
+name: Update Images
+
+on:
+  repository_dispatch:
+    types: [update-images]
+
+env:
+  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+  REGISTRY: europe-west1-docker.pkg.dev
+  REPOSITORY: my-repository
+  IMAGE_SERVER: zelhs/project_server
+  IMAGE_TODO: zelhs/todoapp
+  IMAGE_RANDOM: zelhs/random-article
+  IMAGE_BACKUP: zelhs/backup-service
+  IMAGE_BROADCASTER: zelhs/broadcaster
+
+jobs:
+  update-manifests:
+    name: Update Manifests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Kustomize
+        uses: imranismail/setup-kustomize@v2.1.0
+
+      - name: Determine environment
+        run: |
+          if [[ "${{ github.event.client_payload.is_tag }}" == "true" ]]; then
+            echo "OVERLAY_PATH=manifest/overlays/production" >> $GITHUB_ENV
+            echo "ENVIRONMENT=production" >> $GITHUB_ENV
+          else
+            echo "OVERLAY_PATH=manifest/overlays/staging" >> $GITHUB_ENV
+            echo "ENVIRONMENT=staging" >> $GITHUB_ENV
+          fi
+
+      - name: Update images
+        run: |
+          cd $OVERLAY_PATH
+          
+          kustomize edit set image \
+            $REGISTRY/$PROJECT_ID/$REPOSITORY/$IMAGE_SERVER=${{ github.event.client_payload.image_server }}
+          kustomize edit set image \
+            $REGISTRY/$PROJECT_ID/$REPOSITORY/$IMAGE_TODO=${{ github.event.client_payload.image_todo }}
+          kustomize edit set image \
+            $REGISTRY/$PROJECT_ID/$REPOSITORY/$IMAGE_RANDOM=${{ github.event.client_payload.image_random }}
+          kustomize edit set image \
+            $REGISTRY/$PROJECT_ID/$REPOSITORY/$IMAGE_BACKUP=${{ github.event.client_payload.image_backup }}
+          kustomize edit set image \
+            $REGISTRY/$PROJECT_ID/$REPOSITORY/$IMAGE_BROADCASTER=${{ github.event.client_payload.image_broadcaster }}
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+          git add $OVERLAY_PATH/kustomization.yml
+          git commit -m "Update $ENVIRONMENT images - ${{ github.event.client_payload.branch }}@${{ github.event.client_payload.sha }}"
+          git push
