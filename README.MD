@@ -20,5 +20,5 @@ Project is structured as:
         └── kustomization.yml
 ```
 
-Whenever a change is made, images are being updated in the overlay kustomization and 
-are being detected by the ArgoCD in the cluster.
+Whenever a change is made, cluster is updated by the ArgoCD.
+There is also a workflow that is triggered whenever a changed is made in the [project server repo](https://github.com/andreasZel/devops_with_kubernetes_project_server), to also commit changes in the `overlays kustomization`.

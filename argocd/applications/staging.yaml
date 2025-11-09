@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/andreasZel/devops_with_kubernetes_project_server
+    repoURL: https://github.com/andreasZel/devops_with_kubernetes_project_server_configuration
     targetRevision: main
     path: manifest/overlays/staging
   destination:
