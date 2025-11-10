@@ -46,16 +46,16 @@ images:
   newTag: main-a34cb8f6b3f1d06ce2fe27e9475a41ceae0c831d
 - name: europe-west1-docker.pkg.dev/our-reason-470418-t4/my-repository/zelhs/backup-service
   newName: europe-west1-docker.pkg.dev/our-reason-470418-t4/my-repository/zelhs/backup-service
-  newTag: main-f73ea7c2c096ad624f4b9ada44da38393d62717b
+  newTag: main-77ad1305a980d6dad1a793f7b2b1ff1710016e77
 - name: europe-west1-docker.pkg.dev/our-reason-470418-t4/my-repository/zelhs/broadcaster
   newName: europe-west1-docker.pkg.dev/our-reason-470418-t4/my-repository/zelhs/broadcaster
-  newTag: main-f73ea7c2c096ad624f4b9ada44da38393d62717b
+  newTag: main-77ad1305a980d6dad1a793f7b2b1ff1710016e77
 - name: europe-west1-docker.pkg.dev/our-reason-470418-t4/my-repository/zelhs/project_server
   newName: europe-west1-docker.pkg.dev/our-reason-470418-t4/my-repository/zelhs/project_server
-  newTag: main-f73ea7c2c096ad624f4b9ada44da38393d62717b
+  newTag: main-77ad1305a980d6dad1a793f7b2b1ff1710016e77
 - name: europe-west1-docker.pkg.dev/our-reason-470418-t4/my-repository/zelhs/random-article
   newName: europe-west1-docker.pkg.dev/our-reason-470418-t4/my-repository/zelhs/random-article
-  newTag: main-f73ea7c2c096ad624f4b9ada44da38393d62717b
+  newTag: main-77ad1305a980d6dad1a793f7b2b1ff1710016e77
 - name: europe-west1-docker.pkg.dev/our-reason-470418-t4/my-repository/zelhs/todoapp
   newName: europe-west1-docker.pkg.dev/our-reason-470418-t4/my-repository/zelhs/todoapp
-  newTag: main-f73ea7c2c096ad624f4b9ada44da38393d62717b
+  newTag: main-77ad1305a980d6dad1a793f7b2b1ff1710016e77
