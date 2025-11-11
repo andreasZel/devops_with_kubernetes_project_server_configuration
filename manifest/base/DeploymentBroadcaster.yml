@@ -22,7 +22,7 @@ spec:
                   name: broadcaster-secret
                   key: DISCORD_WEBHOOK_URL
             - name: NATS_URL
-              value: nats://my-nats:4222
+              value: nats://my-nats.nats.svc.cluster.local:4222
           resources:
             requests:
               cpu: "100m"
